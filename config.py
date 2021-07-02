@@ -12,3 +12,4 @@ class States(Enum):
     S_ENTER_NAME = "1"
     S_ENTER_AGE = "2"
     S_ENTER_NUMBER = "3"
+    S_ENTER_DATE = '4'
