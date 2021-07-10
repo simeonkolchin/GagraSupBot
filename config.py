@@ -4,10 +4,6 @@ TOKEN = '1858033393:AAF3GZEnNNEjNEBsOoRJXyPtfgLO0OCO9Fk'
 db_file = "database.vdb"
 
 class States(Enum):
-    """
-    Мы используем БД Vedis, в которой хранимые значения всегда строки,
-    поэтому и тут будем использовать тоже строки (str)
-    """
     S_START = "0"  # Начало нового диалога
     S_ENTER_NAME = "1"
     S_ENTER_AGE = "2"
@@ -19,4 +15,7 @@ class States(Enum):
     S_EDIT_NUMBER = '7'
     S_EDIT_DATE = '8'
     S_EDIT_TIME = '9'
+
     S_USER = '10'
+    S_USER_AGE = '11'
+    S_USER_DATE = '12'
