@@ -83,6 +83,10 @@ def user_age(message):
         bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
         return
 
+    else:
+        bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
+        return
+
 @bot.message_handler(func=lambda message: dbworker.get_current_state(message.chat.id) == config.States.S_USER_AGE.value)
 def user_age(message):
     age = message.text
@@ -93,6 +97,10 @@ def user_age(message):
 
     if int(apl[message.chat.id, 'age']) > 4:
         bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
+        return
+
+    else:
+        bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
         return
 
 
