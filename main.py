@@ -75,15 +75,19 @@ def user_edit_name(message):
 def user_age(message):
     age = message.text
     apl[message.chat.id, 'age'] = age
-    if int(apl[message.chat.id, 'age']) <= 4:
-        bot.send_message(message.chat.id, "Отправь мне свой номер телефона, для того чтобы мы с тобой связались:")
-        dbworker.set_state(message.chat.id, config.States.S_ENTER_NUMBER.value)
+    try:
+        if int(apl[message.chat.id, 'age']) <= 4:
+            bot.send_message(message.chat.id, "Отправь мне свой номер телефона, для того чтобы мы с тобой связались:")
+            dbworker.set_state(message.chat.id, config.States.S_ENTER_NUMBER.value)
 
-    if int(apl[message.chat.id, 'age']) > 4:
-        bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
-        return
+        if int(apl[message.chat.id, 'age']) > 4:
+            bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
+            return
 
-    else:
+        else:
+            bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
+            return
+    except:
         bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
         return
 
