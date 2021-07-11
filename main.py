@@ -118,6 +118,9 @@ def user_edit_age(message):
             apl[message.chat.id, 'sum'] = '2250'
         elif int(apl[message.chat.id, 'age']) == 4 and apl[message.chat.id, 'time'] == 'Вечер':
             apl[message.chat.id, 'sum'] = '3000'
+        else:
+            bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
+            return
 
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
@@ -322,6 +325,9 @@ def callback_inline(call):
             apl[call.message.chat.id, 'sum'] = '3000'
         elif int(apl[call.message.chat.id, 'age']) == 4:
             apl[call.message.chat.id, 'sum'] = '4000'
+        else:
+            bot.send_message(call.message.chat.id, 'Что-то не так. Введите количество человек заново:')
+            return
 
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
@@ -347,6 +353,9 @@ def callback_inline(call):
             apl[call.message.chat.id, 'sum'] = '2250'
         elif int(apl[call.message.chat.id, 'age']) == 4:
             apl[call.message.chat.id, 'sum'] = '3000'
+        else:
+            bot.send_message(call.message.chat.id, 'Что-то не так. Введите количество человек заново:')
+            return
 
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
