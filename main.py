@@ -3,7 +3,6 @@ import requests
 import dbworker
 import config
 import datetime
-from datetime import datetime as DT
 from telebot import types
 from config import TOKEN
 from bs4 import BeautifulSoup
