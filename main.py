@@ -44,7 +44,6 @@ def start(message):
 #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_  NAME AND EDIT_NAME   _#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 @bot.message_handler(func=lambda message: dbworker.get_current_state(message.chat.id) == config.States.S_ENTER_NAME.value)
 def user_name(message):
-    # В случае с именем не будем ничего проверять, пусть хоть "25671", хоть Евкакий
     name = message.text
     apl[message.chat.id,'name'] = name
     bot.send_message(message.chat.id, "Приятно познакомиться! Теперь укажи, сколько вас человек:")
@@ -52,7 +51,6 @@ def user_name(message):
 
 @bot.message_handler(func=lambda message: dbworker.get_current_state(message.chat.id) == config.States.S_EDIT_NAME.value)
 def user_edit_name(message):
-    # В случае с именем не будем ничего проверять, пусть хоть "25671", хоть Евкакий
     name = message.text
     apl[message.chat.id,'name'] = name
     keyboard = types.InlineKeyboardMarkup(row_width=1)
@@ -83,10 +81,6 @@ def user_age(message):
         if int(apl[message.chat.id, 'age']) > 4:
             bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
             return
-
-        else:
-            bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
-            return
     except:
         bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
         return
@@ -95,15 +89,15 @@ def user_age(message):
 def user_age(message):
     age = message.text
     apl[message.chat.id, 'age'] = age
-    if int(apl[message.chat.id, 'age']) <= 4:
-        bot.send_message(message.chat.id, "Напишите дату, когда бы вы хотели поехать на прогулку:")
-        dbworker.set_state(message.chat.id, config.States.S_USER_DATE.value)
+    try:
+        if int(apl[message.chat.id, 'age']) <= 4:
+            bot.send_message(message.chat.id, "Напишите дату, когда бы вы хотели поехать на прогулку:")
+            dbworker.set_state(message.chat.id, config.States.S_USER_DATE.value)
 
-    if int(apl[message.chat.id, 'age']) > 4:
-        bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
-        return
-
-    else:
+        if int(apl[message.chat.id, 'age']) > 4:
+            bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
+            return
+    except:
         bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
         return
 
@@ -112,45 +106,50 @@ def user_age(message):
 def user_edit_age(message):
     age = message.text
     apl[message.chat.id, 'age'] = age
-    if int(apl[message.chat.id, 'age']) <= 4:
-        if int(apl[message.chat.id, 'age']) == 1 and apl[message.chat.id, 'time'] == 'Утро':
-            apl[message.chat.id, 'sum'] = '1000'
-        elif int(apl[message.chat.id, 'age']) == 2 and apl[message.chat.id, 'time'] == 'Утро':
-            apl[message.chat.id, 'sum'] = '2000'
-        elif int(apl[message.chat.id, 'age']) == 3 and apl[message.chat.id, 'time'] == 'Утро':
-            apl[message.chat.id, 'sum'] = '3000'
-        elif int(apl[message.chat.id, 'age']) == 4 and apl[message.chat.id, 'time'] == 'Утро':
-            apl[message.chat.id, 'sum'] = '4000'
+    try:
+        if int(apl[message.chat.id, 'age']) <= 4:
+            if int(apl[message.chat.id, 'age']) == 1 and apl[message.chat.id, 'time'] == 'Утро':
+                apl[message.chat.id, 'sum'] = '1000'
+            elif int(apl[message.chat.id, 'age']) == 2 and apl[message.chat.id, 'time'] == 'Утро':
+                apl[message.chat.id, 'sum'] = '2000'
+            elif int(apl[message.chat.id, 'age']) == 3 and apl[message.chat.id, 'time'] == 'Утро':
+                apl[message.chat.id, 'sum'] = '3000'
+            elif int(apl[message.chat.id, 'age']) == 4 and apl[message.chat.id, 'time'] == 'Утро':
+                apl[message.chat.id, 'sum'] = '4000'
 
-        elif int(apl[message.chat.id, 'age']) == 1 and apl[message.chat.id, 'time'] == 'Вечер':
-            apl[message.chat.id, 'sum'] = '750'
-        elif int(apl[message.chat.id, 'age']) == 2 and apl[message.chat.id, 'time'] == 'Вечер':
-            apl[message.chat.id, 'sum'] = '1500'
-        elif int(apl[message.chat.id, 'age']) == 3 and apl[message.chat.id, 'time'] == 'Вечер':
-            apl[message.chat.id, 'sum'] = '2250'
-        elif int(apl[message.chat.id, 'age']) == 4 and apl[message.chat.id, 'time'] == 'Вечер':
-            apl[message.chat.id, 'sum'] = '3000'
-        else:
-            bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
+            elif int(apl[message.chat.id, 'age']) == 1 and apl[message.chat.id, 'time'] == 'Вечер':
+                apl[message.chat.id, 'sum'] = '750'
+            elif int(apl[message.chat.id, 'age']) == 2 and apl[message.chat.id, 'time'] == 'Вечер':
+                apl[message.chat.id, 'sum'] = '1500'
+            elif int(apl[message.chat.id, 'age']) == 3 and apl[message.chat.id, 'time'] == 'Вечер':
+                apl[message.chat.id, 'sum'] = '2250'
+            elif int(apl[message.chat.id, 'age']) == 4 and apl[message.chat.id, 'time'] == 'Вечер':
+                apl[message.chat.id, 'sum'] = '3000'
+            else:
+                bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
+                return
+
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
+            b2 = types.InlineKeyboardButton(text='Отправить »', callback_data='Send')
+            keyboard.add(b1, b2)
+            bot.send_message(message.chat.id, f"Ваша заявка:"
+                                              f"\n\nИмя: {apl[message.chat.id, 'name']}"
+                                              f"\nКоличество человек: {apl[message.chat.id, 'age']}"
+                                              f"\nСумма: {apl[message.chat.id, 'sum']}р"
+                                              f"\nДата: {apl[message.chat.id, 'date']} {now.year}"
+                                              f"\nВремя: {apl[message.chat.id, 'time']}"
+                                              f"\nНомер телефона: {apl[message.chat.id, 'number']}",
+                             reply_markup=keyboard)
+            dbworker.set_state(message.chat.id, config.States.S_USER.value)
+
+        if int(apl[message.chat.id, 'age']) > 4:
+            bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
             return
-
-        keyboard = types.InlineKeyboardMarkup(row_width=1)
-        b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
-        b2 = types.InlineKeyboardButton(text='Отправить »', callback_data='Send')
-        keyboard.add(b1, b2)
-        bot.send_message(message.chat.id, f"Ваша заявка:"
-                                   f"\n\nИмя: {apl[message.chat.id, 'name']}"
-                                   f"\nКоличество человек: {apl[message.chat.id, 'age']}"
-                                   f"\nСумма: {apl[message.chat.id, 'sum']}р"
-                                   f"\nДата: {apl[message.chat.id, 'date']} {now.year}"
-                                   f"\nВремя: {apl[message.chat.id, 'time']}"
-                                   f"\nНомер телефона: {apl[message.chat.id, 'number']}",
-                              reply_markup=keyboard)
-        dbworker.set_state(message.chat.id, config.States.S_USER.value)
-
-    if int(apl[message.chat.id, 'age']) > 4:
-        bot.send_message(message.chat.id, "Количество человек не может превышать 4:")
+    except:
+        bot.send_message(message.chat.id, 'Что-то не так. Введите количество человек заново:')
         return
+
 
 
 #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_  NUMBER AND EDIT_NUMBER   _#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
@@ -328,60 +327,69 @@ def callback_inline(call):
 
 
     if call.data == 'Morning':
-        apl[call.message.chat.id, 'time'] = 'Утро'
-        if int(apl[call.message.chat.id, 'age']) == 1:
-            apl[call.message.chat.id, 'sum'] = '1000'
-        elif int(apl[call.message.chat.id, 'age']) == 2:
-            apl[call.message.chat.id, 'sum'] = '2000'
-        elif int(apl[call.message.chat.id, 'age']) == 3:
-            apl[call.message.chat.id, 'sum'] = '3000'
-        elif int(apl[call.message.chat.id, 'age']) == 4:
-            apl[call.message.chat.id, 'sum'] = '4000'
-        else:
-            bot.send_message(call.message.chat.id, 'Что-то не так. Введите количество человек заново:')
-            return
-
-        keyboard = types.InlineKeyboardMarkup(row_width=1)
-        b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
-        b2 = types.InlineKeyboardButton(text='Отправить »', callback_data='Send')
-        keyboard.add(b1, b2)
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                              text=f"Ваша заявка:"
-                                   f"\n\nИмя: {apl[call.message.chat.id, 'name']}"
-                                   f"\nКоличество человек: {apl[call.message.chat.id, 'age']}"
-                                   f"\nСумма: {apl[call.message.chat.id, 'sum']}р"
-                                   f"\nДата: {apl[call.message.chat.id, 'date']} {now.year}"
-                                   f"\nВремя: {apl[call.message.chat.id, 'time']}"
-                                   f"\nНомер телефона: {apl[call.message.chat.id, 'number']}",
-                              reply_markup=keyboard)
+        try:
+            apl[call.message.chat.id, 'time'] = 'Утро'
+            if int(apl[call.message.chat.id, 'age']) == 1:
+                apl[call.message.chat.id, 'sum'] = '1000'
+            elif int(apl[call.message.chat.id, 'age']) == 2:
+                apl[call.message.chat.id, 'sum'] = '2000'
+            elif int(apl[call.message.chat.id, 'age']) == 3:
+                apl[call.message.chat.id, 'sum'] = '3000'
+            elif int(apl[call.message.chat.id, 'age']) == 4:
+                apl[call.message.chat.id, 'sum'] = '4000'
+            else:
+                bot.send_message(call.message.chat.id, 'Что-то не так. Введите количество человек заново:')
+                return
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
+            b2 = types.InlineKeyboardButton(text='Отправить »', callback_data='Send')
+            keyboard.add(b1, b2)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text=f"Ваша заявка:"
+                                       f"\n\nИмя: {apl[call.message.chat.id, 'name']}"
+                                       f"\nКоличество человек: {apl[call.message.chat.id, 'age']}"
+                                       f"\nСумма: {apl[call.message.chat.id, 'sum']}р"
+                                       f"\nДата: {apl[call.message.chat.id, 'date']} {now.year}"
+                                       f"\nВремя: {apl[call.message.chat.id, 'time']}"
+                                       f"\nНомер телефона: {apl[call.message.chat.id, 'number']}",
+                                  reply_markup=keyboard)
+        except:
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text='Что-то пошло не так на сервере. Приносим свои извинения. Введите подалуйста имя заново:')
+            dbworker.set_state(call.message.chat.id, config.States.S_ENTER_NAME.value)
 
     if call.data == 'Evening':
-        apl[call.message.chat.id, 'time'] = 'Вечер'
-        if int(apl[call.message.chat.id, 'age']) == 1:
-            apl[call.message.chat.id, 'sum'] = '750'
-        elif int(apl[call.message.chat.id, 'age']) == 2:
-            apl[call.message.chat.id, 'sum'] = '1500'
-        elif int(apl[call.message.chat.id, 'age']) == 3:
-            apl[call.message.chat.id, 'sum'] = '2250'
-        elif int(apl[call.message.chat.id, 'age']) == 4:
-            apl[call.message.chat.id, 'sum'] = '3000'
-        else:
-            bot.send_message(call.message.chat.id, 'Что-то не так. Введите количество человек заново:')
-            return
+        try:
+            apl[call.message.chat.id, 'time'] = 'Вечер'
+            if int(apl[call.message.chat.id, 'age']) == 1:
+                apl[call.message.chat.id, 'sum'] = '750'
+            elif int(apl[call.message.chat.id, 'age']) == 2:
+                apl[call.message.chat.id, 'sum'] = '1500'
+            elif int(apl[call.message.chat.id, 'age']) == 3:
+                apl[call.message.chat.id, 'sum'] = '2250'
+            elif int(apl[call.message.chat.id, 'age']) == 4:
+                apl[call.message.chat.id, 'sum'] = '3000'
+            else:
+                bot.send_message(call.message.chat.id, 'Что-то не так. Введите количество человек заново:')
+                return
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
+            b2 = types.InlineKeyboardButton(text='Отправить »', callback_data='Send')
+            keyboard.add(b1, b2)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text=f"Ваша заявка:"
+                                       f"\n\nИмя: {apl[call.message.chat.id, 'name']}"
+                                       f"\nКоличество человек: {apl[call.message.chat.id, 'age']}"
+                                       f"\nСумма: {apl[call.message.chat.id, 'sum']}р"
+                                       f"\nДата: {apl[call.message.chat.id, 'date']} {now.year}"
+                                       f"\nВремя: {apl[call.message.chat.id, 'time']}"
+                                       f"\nНомер телефона: {apl[call.message.chat.id, 'number']}",
+                                  reply_markup=keyboard)
+        except:
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text='Что-то пошло не так на сервере. Приносим свои извинения. Введите подалуйста имя заново:')
+            dbworker.set_state(call.message.chat.id, config.States.S_ENTER_NAME.value)
 
-        keyboard = types.InlineKeyboardMarkup(row_width=1)
-        b1 = types.InlineKeyboardButton(text='Изменить', callback_data='Edit')
-        b2 = types.InlineKeyboardButton(text='Отправить »', callback_data='Send')
-        keyboard.add(b1, b2)
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                              text=f"Ваша заявка:"
-                                    f"\n\nИмя: {apl[call.message.chat.id,'name']}"
-                                    f"\nКоличество человек: {apl[call.message.chat.id,'age']}"
-                                    f"\nСумма: {apl[call.message.chat.id,'sum']}р"
-                                    f"\nДата: {apl[call.message.chat.id,'date']} {now.year}"
-                                    f"\nВремя: {apl[call.message.chat.id, 'time']}"
-                                    f"\nНомер телефона: {apl[call.message.chat.id,'number']}",
-                              reply_markup=keyboard)
 
     if call.data == 'Send':
         keyboard = types.InlineKeyboardMarkup(row_width=1)
@@ -393,7 +401,7 @@ def callback_inline(call):
                                    f"\nСумма: {apl[call.message.chat.id, 'sum']}р",
                               reply_markup=keyboard)
 
-        bot.send_message(1647407069, f"Заявка на утреннюю прогулку:"
+        bot.send_message(1647407069, f"Заявка:"
                                      f"\n\nИмя: {apl[call.message.chat.id, 'name']}"
                                      f"\nКоличество человек: {apl[call.message.chat.id, 'age']}"
                                      f"\nСумма: {apl[call.message.chat.id, 'sum']}р"
@@ -401,7 +409,7 @@ def callback_inline(call):
                                      f"\nВремя: {apl[call.message.chat.id, 'time']}"
                                      f"\nНомер телефона: {apl[call.message.chat.id, 'number']}")
 
-        bot.send_message(490371324, f"Заявка на утреннюю прогулку:"
+        bot.send_message(490371324, f"Заявка:"
                                      f"\n\nИмя: {apl[call.message.chat.id, 'name']}"
                                      f"\nКоличество человек: {apl[call.message.chat.id, 'age']}"
                                      f"\nСумма: {apl[call.message.chat.id, 'sum']}р"
