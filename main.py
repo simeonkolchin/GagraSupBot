@@ -21,11 +21,14 @@ def start(message):
         id = message.chat.id
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         b1 = types.InlineKeyboardButton(text='Прогулки', callback_data='GoSerf')
-        # b2 = types.InlineKeyboardButton(text='Мои заявки', callback_data='AllClaims')
+        if message.chat.id == 1647407069 or message.chat.id == 490371324:
+            b2 = types.InlineKeyboardButton(text='Все заявки', callback_data='AllClaims')
+        else:
+            b2 = types.InlineKeyboardButton(text='Мои заявки', callback_data='AllClaims')
         b3 = types.InlineKeyboardButton(text='Контакты', callback_data='Contacts')
         b4 = types.InlineKeyboardButton(text='Погода', callback_data='Weather')
         b5 = types.InlineKeyboardButton(text='Как добраться?', callback_data='Map')
-        keyboard.add(b1, b3, b4, b5)
+        keyboard.add(b1, b2, b3, b4, b5)
         bot.send_message(id, 'Приветствуем в нашем боте!!!'
                              '\nЗдесь вы можете оставить заявку на прогулку.'
                              '\n\nВыберите тот вариант который вам нужен:', reply_markup=keyboard)
@@ -34,11 +37,14 @@ def start(message):
         id = message.chat.id
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         b1 = types.InlineKeyboardButton(text='Прогулки', callback_data='GoSerf')
-        # b2 = types.InlineKeyboardButton(text='Мои заявки', callback_data='AllClaims')
+        if message.chat.id == 1647407069 or message.chat.id == 490371324:
+            b2 = types.InlineKeyboardButton(text='Все заявки', callback_data='AllClaims')
+        else:
+            b2 = types.InlineKeyboardButton(text='Мои заявки', callback_data='AllClaims')
         b3 = types.InlineKeyboardButton(text='Контакты', callback_data='Contacts')
         b4 = types.InlineKeyboardButton(text='Погода', callback_data='Weather')
         b5 = types.InlineKeyboardButton(text='Как добраться?', callback_data='Map')
-        keyboard.add(b1, b3, b4, b5)
+        keyboard.add(b1, b2, b3, b4, b5)
         bot.send_message(id, 'Приветствуем в нашем боте!!!'
                              '\nЗдесь вы можете оставить заявку на прогулку.'
                              '\n\nВыберите тот вариант который вам нужен:', reply_markup=keyboard)
@@ -246,11 +252,14 @@ def callback_inline(call):
     if call.data == 'Start':
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         b1 = types.InlineKeyboardButton(text='Прогулки', callback_data='GoSerf')
-        # b2 = types.InlineKeyboardButton(text='Мои заявки', callback_data='AllClaims')
+        if call.message.chat.id == 1647407069 or call.message.chat.id == 490371324:
+            b2 = types.InlineKeyboardButton(text='Все заявки', callback_data='AllClaims')
+        else:
+            b2 = types.InlineKeyboardButton(text='Мои заявки', callback_data='AllClaims')
         b3 = types.InlineKeyboardButton(text='Контакты', callback_data='Contacts')
         b4 = types.InlineKeyboardButton(text='Погода', callback_data='Weather')
         b5 = types.InlineKeyboardButton(text='Как добраться?', callback_data='Map')
-        keyboard.add(b1, b3, b4, b5)
+        keyboard.add(b1, b2, b3, b4, b5)
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                               text='Приветствуем в нашем боте!!!'
                              '\nЗдесь вы можете оставить заявку на прогулку.'
@@ -329,43 +338,73 @@ def callback_inline(call):
                               text='Отметьте свое местоположение 🚩'
                                    '\n\nВам будет построен маршрут. Наше местоположение уже отмечено)', reply_markup=keyboard)
 
-    # if call.data == 'AllClaims':
-    #     if len(allapl) >= 1:
-    #         keyboard = types.InlineKeyboardMarkup(row_width=1)
-    #         for key in allapl.keys():
-    #             title = str(key)
-    #             text = title.replace(f"({call.message.chat.id}, '", "").strip()
-    #             text_name = text.replace("')", "").rstrip()
-    #             keyboard.add(types.InlineKeyboardButton(text=f'{text_name}', callback_data=f'{key}'))
-    #         b1 = types.InlineKeyboardButton(text='« Вернуться', callback_data='Start')
-    #         keyboard.add(b1)
-    #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-    #                           text='Чтобы увидеть информацию о событии, нажмите на название', reply_markup=keyboard)
-    #     else:
-    #         keyboard = types.InlineKeyboardMarkup(row_width=1)
-    #         b1 = types.InlineKeyboardButton(text='Прогулки', callback_data='GoSerf')
-    #         b2 = types.InlineKeyboardButton(text='« Вернуться', callback_data='Start')
-    #         keyboard.add(b1, b2)
-    #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-    #                           text='Заявок пока нет. Если хотите подать заявку нажмите "Прогулки":', reply_markup=keyboard)
-    #
-    # for key in allapl.keys():
-    #     if call.data == str(key):
-    #         keyboard = types.InlineKeyboardMarkup(row_width=1)
-    #         b1 = types.InlineKeyboardButton(text='Удалить заявку', callback_data=f'DelClaims {key}')
-    #         b2 = types.InlineKeyboardButton(text='« Вернуться', callback_data='AllClaims')
-    #         keyboard.add(b1, b2)
-    #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-    #                             text=f'{allapl[key]}', reply_markup=keyboard)
-    #
-    #     if call.data == f'DelClaims {key}':
-    #         del allapl[key]
-    #         keyboard = types.InlineKeyboardMarkup(row_width=1)
-    #         b1 = types.InlineKeyboardButton(text='« Вернуться', callback_data='AllClaims')
-    #         keyboard.add(b1)
-    #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-    #                               text=f'Заявка удалена', reply_markup=keyboard)
-    #         break
+    if call.data == 'AllClaims':
+        if call.message.chat.id == 1647407069 or call.message.chat.id == 490371324:
+            if len(allapl) >= 1:
+                keyboard = types.InlineKeyboardMarkup(row_width=1)
+                for key in allapl.keys():
+                    title = str(key)
+                    day_time = ''
+                    if 'Вечер' in str(allapl[key]):
+                        day_time = 'Вечер'
+                    elif 'Утро' in str(allapl[key]):
+                        day_time = 'Утро'
+                    text = title.replace(f"(", "").strip()
+                    text_name = text.replace(")", "").rstrip()
+                    keyboard.add(types.InlineKeyboardButton(text=f'{text_name} ({day_time})', callback_data=f'{key}'))
+                b1 = types.InlineKeyboardButton(text='« Вернуться', callback_data='Start')
+                keyboard.add(b1)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                      text='Вот все заявки', reply_markup=keyboard)
+            else:
+                keyboard = types.InlineKeyboardMarkup(row_width=1)
+                b1 = types.InlineKeyboardButton(text='« Вернуться', callback_data='Start')
+                keyboard.add(b1)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                      text='Поданных заявок пока нет', reply_markup=keyboard)
+
+        elif str(call.message.chat.id) in str(allapl):
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            for key in allapl.keys():
+                title = str(key)
+                if str(call.message.chat.id) in title.lower():
+                    day_time = ''
+                    if 'Вечер' in str(allapl[key]):
+                        day_time = 'Вечер'
+                    elif 'Утро' in str(allapl[key]):
+                        day_time = 'Утро'
+                    text = title.replace(f"({call.message.chat.id}, '", "").strip()
+                    text_name = text.replace("')", "").rstrip()
+                    keyboard.add(types.InlineKeyboardButton(text=f'{text_name} ({day_time})', callback_data=f'{key}'))
+            b1 = types.InlineKeyboardButton(text='« Вернуться', callback_data='Start')
+            keyboard.add(b1)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                              text='Вот ваши заявки. Перейдя в заявку вы можете удалить ее, но мы вам этого не рекомендуем)', reply_markup=keyboard)
+        else:
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            b1 = types.InlineKeyboardButton(text='Прогулки', callback_data='GoSerf')
+            b2 = types.InlineKeyboardButton(text='« Вернуться', callback_data='Start')
+            keyboard.add(b1, b2)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                              text='У вас пока нет заявок. Возможно, если вы уже побывали на прогулке по заявке, то она была удалена. Чтобы подать заявку перейдите в раздел «Прогулки» --> «Подать заявку»', reply_markup=keyboard)
+
+    for key in allapl.keys():
+        if call.data == str(key):
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            b1 = types.InlineKeyboardButton(text='Удалить заявку', callback_data=f'DelClaims {key}')
+            b2 = types.InlineKeyboardButton(text='« Вернуться', callback_data='AllClaims')
+            keyboard.add(b1, b2)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                text=f'{allapl[key]}', reply_markup=keyboard)
+
+        if call.data == f'DelClaims {key}':
+            del allapl[key]
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            b1 = types.InlineKeyboardButton(text='« Вернуться', callback_data='AllClaims')
+            keyboard.add(b1)
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                  text=f'Заявка удалена', reply_markup=keyboard)
+            break
 
     if call.data == 'Morning':
         try:
@@ -433,7 +472,7 @@ def callback_inline(call):
 
 
     if call.data == 'Send':
-        # allapl[call.message.chat.id, apl[call.message.chat.id, 'date']] = f"Заявка:\n\nИмя: {apl[call.message.chat.id, 'name']}\nКоличество человек: {apl[call.message.chat.id, 'age']}\nСумма: {apl[call.message.chat.id, 'sum']}р\nДата: {apl[call.message.chat.id, 'date']} {now.year}\nВремя: {apl[call.message.chat.id, 'time']}\nНомер телефона: {apl[call.message.chat.id, 'number']}"
+        allapl[call.message.chat.id, apl[call.message.chat.id, 'date']] = f"Заявка:\n\nИмя: {apl[call.message.chat.id, 'name']}\nКоличество человек: {apl[call.message.chat.id, 'age']}\nСумма: {apl[call.message.chat.id, 'sum']}р\nДата: {apl[call.message.chat.id, 'date']} {now.year}\nВремя: {apl[call.message.chat.id, 'time']}\nНомер телефона: {apl[call.message.chat.id, 'number']}"
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         b1 = types.InlineKeyboardButton(text='Продолжить »', callback_data='Start')
         keyboard.add(b1)
