@@ -4,18 +4,23 @@ import dbworker
 import psycopg2
 import config
 import datetime
+import os
 import random
 from telebot import types
 from config import TOKEN
 from bs4 import BeautifulSoup
 
-con = psycopg2.connect(
-  database="GagraSup",
-  user="postgres",
-  password="gagrasup",
-  host="127.0.0.1",
-  port="5432"
-)
+DATABASE_URL = os.environ['DATABASE_URL']
+
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
+# con = psycopg2.connect(
+#   database="GagraSup",
+#   user="postgres",
+#   password="gagrasup",
+#   host="127.0.0.1",
+#   port="5432"
+# )
 
 
 cur = con.cursor()
