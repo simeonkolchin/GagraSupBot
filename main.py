@@ -422,10 +422,10 @@ def edit_name_event(message):
     bot.send_message(message.chat.id, "Цена билета изменена!", reply_markup=keyboard)
 
 @bot.message_handler(func=lambda message: dbworker.get_current_state(message.chat.id) == config.States.EDIT_PEOPLE_EVENT.value)
-def edit_name_event(message):
+def edit_people_event(message):
     people = message.text
     events[message.chat.id, 'people'] = people
-    cur.execute(f'''UPDATE Events SET People = {events[message.chat.id, 'people']} WHERE Name = '{apl['e_name']}';''')
+    cur.execute(f'''UPDATE Events SET People = {events[message.chat.id, 'people']} WHERE Name = '{apl[message.chat.id, 'e_name']}';''')
     con.commit()
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     buttons = [
@@ -579,12 +579,12 @@ def callback_inline(call):
             dbworker.set_state(call.message.chat.id, config.States.EDIT_PRICE_EVENT.value)
 
         if call.data == f'EditPeople{key[3]}' and str(call.message.chat.id) in adminUsers:
-            apl['e_event'] = key[0]
+            apl[call.message.chat.id, 'e_event'] = key[0]
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                   text=f'Текущее кол-во человек в группе:'
                                        f'\n{key[3]}'
                                        f'Введите новое кол-во человек в группе:')
-            dbworker.set_state(call.message.chat.id, config.States.EDIT_PRICE_EVENT.value)
+            dbworker.set_state(call.message.chat.id, config.States.EDIT_PEOPLE_EVENT.value)
 
         if call.data == f'DelEvent{key[0]}' and str(call.message.chat.id) in adminUsers:
             cur.execute(f'''DELETE FROM Events WHERE Name = '{key[0]}';''')
