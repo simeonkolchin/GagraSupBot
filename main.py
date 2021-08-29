@@ -425,7 +425,7 @@ def edit_name_event(message):
 def edit_name_event(message):
     people = message.text
     events[message.chat.id, 'people'] = people
-    cur.execute(f'''UPDATE Events SET People = {events[message.chat.id, 'people']} WHERE Name = '{apl[message.chat.id, 'e_name']}';''')
+    cur.execute(f'''UPDATE Events SET People = {events[message.chat.id, 'people']} WHERE Name = '{apl['e_name']}';''')
     con.commit()
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     buttons = [
@@ -579,7 +579,7 @@ def callback_inline(call):
             dbworker.set_state(call.message.chat.id, config.States.EDIT_PRICE_EVENT.value)
 
         if call.data == f'EditPeople{key[3]}' and str(call.message.chat.id) in adminUsers:
-            apl[call.message.chat.id, 'e_event'] = key[0]
+            apl['e_event'] = key[0]
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                   text=f'Текущее кол-во человек в группе:'
                                        f'\n{key[3]}'
